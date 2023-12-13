@@ -14,43 +14,32 @@ import {
 import NavBar from "./nav-bar";
 import CardAvisProfile from "./card-avis/card";
 //import axios from 'axios';
+import ProfilePic1 from "./assets/avis1.png";
+import ProfilePic2 from "./assets/avis2.png";
+import ProfilePic3 from "./assets/avis3.png";
+import ProfilePic4 from "./assets/avis4.png";
+import ProfilePic5 from "./assets/avis5.png";
 
 function RealEstateApp() {
-  const buttonStyle = {
-    backgroundColor: "#950101",
-    color: "#FFFFFF",
-    margin: "10px",
-  };
-
-  const sliderStyle = {
-    color: "#FF0000", // Couleur du slider (pouce et piste active)
-    width: "50%",
-  };
-
-  const [surface, setSurface] = useState("");
-  const [bathrooms, setBathrooms] = useState("");
-  const [bedrooms, setBedrooms] = useState("");
-  const [location, setLocation] = useState("");
-  const [priceRange, setPriceRange] = useState([0, 1000000]);
-  const [choice, setChoice] = useState("");
-
   const textFieldStyle = {
     mb: 3,
-    width: "50%",
-    color: "blue",
+    width: "100%",
     margin: 2,
-    "& label": { color: "cyan" },
+    "& label": { color: "#FFFFFE" },
     "& label.Mui-focused": {
       color: "#FFFFFE",
-      borderColor: "yellow",
+      borderColor: "#00ADB5",
     },
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
-        border: "2px solid yellow",
+        border: "2px solid #00ADB5",
       },
       "&:hover fieldset": {
-        borderColor: "pink",
+        borderColor: "#EEEEEE",
       },
+    },
+    "& .MuiInputBase-input": {
+      color: "#FFFFFE", // ou toute autre couleur de votre choix
     },
   };
 
@@ -79,7 +68,6 @@ function RealEstateApp() {
     bathrooms: "",
     bedrooms: "",
     localisation: "",
-    priceRange: [0, 1000000],
     choice: "",
   };
 
@@ -101,96 +89,102 @@ function RealEstateApp() {
                 sx={{
                   display: "flex",
                   flexDirection: "column",
+                  alignItems: "center",
+                  marginTop: 5,
                 }}
               >
-                <Box sx={{ display: "flex", flexDirection: "column" }}>
-                  <Box sx={{ display: "flex", flexDirection: "row" }}>
-                    <Field
-                      sx={textFieldStyle}
-                      variant="outlined"
-                      fullWidth
-                      autoComplete="off"
-                      name="surface"
-                      label="Square"
-                      as={TextField}
-                    />
-                    <Field
-                      sx={textFieldStyle}
-                      as={TextField}
-                      name="bathrooms"
-                      label="Number of bathrooms"
-                      variant="outlined"
-                      fullWidth
-                      autoComplete="off"
-                    />
-                  </Box>
-                  <Box sx={{ display: "flex", flexDirection: "row" }}>
-                    <Field
-                      sx={textFieldStyle}
-                      as={TextField}
-                      name="bedrooms"
-                      label="Number of rooms"
-                      variant="outlined"
-                      fullWidth
-                      autoComplete="off"
-                    />
-                    <Field
-                      sx={textFieldStyle}
-                      as={TextField}
-                      name="localisation"
-                      label="localisation"
-                      variant="outlined"
-                      fullWidth
-                      autoComplete="off"
-                    />
-                  </Box>
-                </Box>
                 <Box
                   sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
+                    padding: 5,
+                    bgcolor: "#393E46",
                     alignItems: "center",
+                    borderRadius: "25px",
+                    boxShadow: "0 8px 14px 0 rgba(0, 0, 0, 0.2)",
                   }}
                 >
-                  <Typography id="range-slider" gutterBottom>
-                    Fourchette de prix
-                  </Typography>
-                  <Slider
-                    name="priceRange"
-                    value={values.priceRange}
-                    onChange={(e, newValue) =>
-                      setFieldValue("priceRange", newValue)
-                    }
-                    valueLabelDisplay="auto"
-                    max={10000000}
-                    style={sliderStyle}
-                  />
-
-                  <FormControl
-                    sx={{ width: "50%", marginTop: 5, marginBottom: 5 }}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
                   >
-                    <InputLabel id="demo-simple-select-label">Choix</InputLabel>
-                    <Select
-                      name="choice"
-                      value={values.choice}
-                      onChange={handleChange}
-                    >
-                      <MenuItem value={1}>0 à 500k$</MenuItem>
-                      <MenuItem value={2}>500k to 1million$</MenuItem>
-                      <MenuItem value={3}>1million to 2.5millions$</MenuItem>
-                      <MenuItem value={4}>2.5millions to 8millions$</MenuItem>
-                    </Select>
-                  </FormControl>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="success"
-                    sx={{ width: "30%", marginBottom: 3 }}
+                    <Box sx={{ display: "flex", flexDirection: "row" }}>
+                      <Field
+                        sx={textFieldStyle}
+                        variant="outlined"
+                        fullWidth
+                        autoComplete="off"
+                        name="surface"
+                        label="Square"
+                        as={TextField}
+                      />
+                      <Field
+                        sx={textFieldStyle}
+                        as={TextField}
+                        name="bathrooms"
+                        label="Number of bathrooms"
+                        variant="outlined"
+                        fullWidth
+                        autoComplete="off"
+                      />
+                    </Box>
+                    <Box sx={{ display: "flex", flexDirection: "row" }}>
+                      <Field
+                        sx={textFieldStyle}
+                        as={TextField}
+                        name="bedrooms"
+                        label="Number of rooms"
+                        variant="outlined"
+                        fullWidth
+                        autoComplete="off"
+                      />
+                      <Field
+                        sx={textFieldStyle}
+                        as={TextField}
+                        name="localisation"
+                        label="localisation"
+                        variant="outlined"
+                        fullWidth
+                        autoComplete="off"
+                      />
+                    </Box>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
                   >
-                    Rechercher
-                  </Button>
+                    <FormControl sx={textFieldStyle} variant="outlined">
+                      <InputLabel id="demo-simple-select-label">
+                        Choix
+                      </InputLabel>
+                      <Select
+                        name="choice"
+                        value={values.choice}
+                        onChange={handleChange}
+                        sx={{ color: "white" }}
+                        variant="outlined"
+                      >
+                        <MenuItem value={1}>0 à 500k$</MenuItem>
+                        <MenuItem value={2}>500k to 1million$</MenuItem>
+                        <MenuItem value={3}>1million to 2.5millions$</MenuItem>
+                        <MenuItem value={4}>2.5millions to 8millions$</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
                 </Box>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="success"
+                  sx={{ marginTop: 3 }}
+                >
+                  Esimate price
+                </Button>
               </Box>
             </Form>
           );
@@ -201,14 +195,38 @@ function RealEstateApp() {
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
-          justifyContent: "center",
+          bgcolor: "#393E46",
+          borderRadius: "25px",
+          padding: 5,
+          margin: 5,
+          boxShadow: "0 8px 14px 0 rgba(0, 0, 0, 0.2)",
         }}
       >
-        <CardAvisProfile nom="Luke" avis="cool" />
-        <CardAvisProfile nom="Luke2" avis="cool2" />
-        <CardAvisProfile nom="Luke3" avis="cool3" />
-        <CardAvisProfile nom="Luke4" avis="cool4" />
-        <CardAvisProfile nom="Luke5" avis="cool5" />
+        <CardAvisProfile
+          image={ProfilePic1}
+          nom="Anissa"
+          avis="Application intuitive, essentielle pour tout agent immobilier moderne."
+        />
+        <CardAvisProfile
+          image={ProfilePic2}
+          nom="John"
+          avis="Gain de temps incroyable, interface utilisateur impeccable."
+        />
+        <CardAvisProfile
+          image={ProfilePic3}
+          nom="Maria"
+          avis="Service client réactif, application très utile pour les visites."
+        />
+        <CardAvisProfile
+          image={ProfilePic4}
+          nom="David"
+          avis="Bonne application, mais nécessite des mises à jour plus fréquentes."
+        />
+        <CardAvisProfile
+          image={ProfilePic5}
+          nom="Mickel"
+          avis="Très efficace pour le suivi des clients, mais pourrait être plus personnalisable."
+        />
       </Box>
     </Box>
   );

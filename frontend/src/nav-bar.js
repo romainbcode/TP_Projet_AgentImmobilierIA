@@ -4,7 +4,7 @@ import { AppBar, Toolbar, Button, Typography } from "@mui/material";
 function NavBar() {
   return (
     <AppBar position="static">
-      <Toolbar sx={{ bgcolor: "#950101", color: "#FFFFFF" }}>
+      <Toolbar sx={{ bgcolor: "#252525", color: "#FFFFFF" }}>
         <Typography variant="h6" style={{ flexGrow: 1 }}>
           Immobilier Pro
         </Typography>
