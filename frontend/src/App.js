@@ -10,17 +10,29 @@ import {
   Select,
   MenuItem,
   Box,
+  Modal,
 } from "@mui/material";
+
 import NavBar from "./nav-bar";
 import CardAvisProfile from "./card-avis/card";
-//import axios from 'axios';
+import axios from "axios";
 import ProfilePic1 from "./assets/avis1.png";
 import ProfilePic2 from "./assets/avis2.png";
 import ProfilePic3 from "./assets/avis3.png";
 import ProfilePic4 from "./assets/avis4.png";
-import ProfilePic5 from "./assets/avis5.png";
 
-function RealEstateApp() {
+export const App = () => {
+  const [open, setOpen] = useState(false);
+  let [estimation, setEstimation] = useState("");
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+    setEstimation("");
+  };
+
   const textFieldStyle = {
     mb: 3,
     width: "100%",
@@ -43,24 +55,31 @@ function RealEstateApp() {
     },
   };
 
-  const handleSearch = async () => {
-    console.log("Button pressed");
-    /*
-        // Remplacer par votre URL API
-        const apiUrl = 'https://yourapi.com/search';
+  const styleModal = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    borderRadius: "20px",
+    bgcolor: "#393E46",
+    border: "1px solid",
+    borderColor: "#00ADB5",
+    boxShadow: 24,
+    p: 4,
+  };
 
-        try {
-            const response = await axios.post(apiUrl, {
-                surface,
-                bathrooms,
-                bedrooms,
-                location,
-                priceRange
-            });
-            console.log(response.data);
-        } catch (error) {
-            console.error("Erreur lors de l'appel API:", error);
-        }*/
+  const handleSearch = async (values) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/generatePrice",
+        values
+      );
+      console.log(response.data);
+      setEstimation(response.data);
+    } catch (error) {
+      console.error("Erreur lors de l'appel API:", error);
+    }
   };
 
   const initialValues = {
@@ -68,7 +87,6 @@ function RealEstateApp() {
     bathrooms: "",
     bedrooms: "",
     localisation: "",
-    choice: "",
   };
 
   return (
@@ -76,9 +94,9 @@ function RealEstateApp() {
       <NavBar />
       <Formik
         initialValues={initialValues}
-        onSubmit={(values) => {
-          // Logique de soumission ici
-          console.log(values);
+        onSubmit={(values, { resetForm }) => {
+          handleSearch(values);
+          handleClickOpen();
         }}
       >
         {(formik) => {
@@ -100,6 +118,7 @@ function RealEstateApp() {
                     alignItems: "center",
                     borderRadius: "25px",
                     boxShadow: "0 8px 14px 0 rgba(0, 0, 0, 0.2)",
+                    width: "50%",
                   }}
                 >
                   <Box
@@ -109,32 +128,44 @@ function RealEstateApp() {
                       alignItems: "center",
                     }}
                   >
-                    <Box sx={{ display: "flex", flexDirection: "row" }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        width: "100%",
+                      }}
+                    >
                       <Field
                         sx={textFieldStyle}
                         variant="outlined"
                         fullWidth
                         autoComplete="off"
                         name="surface"
-                        label="Square"
+                        label="Square 🏠"
                         as={TextField}
                       />
                       <Field
                         sx={textFieldStyle}
                         as={TextField}
                         name="bathrooms"
-                        label="Number of bathrooms"
+                        label="Number of bathrooms 🛀🏼"
                         variant="outlined"
                         fullWidth
                         autoComplete="off"
                       />
                     </Box>
-                    <Box sx={{ display: "flex", flexDirection: "row" }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        width: "100%",
+                      }}
+                    >
                       <Field
                         sx={textFieldStyle}
                         as={TextField}
                         name="bedrooms"
-                        label="Number of rooms"
+                        label="Number of rooms 🛌"
                         variant="outlined"
                         fullWidth
                         autoComplete="off"
@@ -143,38 +174,12 @@ function RealEstateApp() {
                         sx={textFieldStyle}
                         as={TextField}
                         name="localisation"
-                        label="localisation"
+                        label="localisation 📍"
                         variant="outlined"
                         fullWidth
                         autoComplete="off"
                       />
                     </Box>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <FormControl sx={textFieldStyle} variant="outlined">
-                      <InputLabel id="demo-simple-select-label">
-                        Choix
-                      </InputLabel>
-                      <Select
-                        name="choice"
-                        value={values.choice}
-                        onChange={handleChange}
-                        sx={{ color: "white" }}
-                        variant="outlined"
-                      >
-                        <MenuItem value={1}>0 à 500k$</MenuItem>
-                        <MenuItem value={2}>500k to 1million$</MenuItem>
-                        <MenuItem value={3}>1million to 2.5millions$</MenuItem>
-                        <MenuItem value={4}>2.5millions to 8millions$</MenuItem>
-                      </Select>
-                    </FormControl>
                   </Box>
                 </Box>
                 <Button
@@ -190,6 +195,43 @@ function RealEstateApp() {
           );
         }}
       </Formik>
+      {
+        (estimation = !"" ? (
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={styleModal}>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Predictions of the Price of Your Property
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                Based on the number of bedrooms, bathrooms, area, location, and
+                your price range, our artificial intelligence has estimated a
+                price of {estimation}
+              </Typography>
+              <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                <Button
+                  onClick={handleClose}
+                  style={{
+                    marginTop: "10px",
+                  }}
+                  variant="contained"
+                  color="error"
+                  sx={{ display: "flex" }}
+                >
+                  Fermer
+                </Button>
+              </Box>
+            </Box>
+          </Modal>
+        ) : (
+          <></>
+        ))
+      }
+
       <Box
         sx={{
           display: "flex",
@@ -205,31 +247,26 @@ function RealEstateApp() {
         <CardAvisProfile
           image={ProfilePic1}
           nom="Anissa"
-          avis="Application intuitive, essentielle pour tout agent immobilier moderne."
+          avis="Intuitive application, essential for any modern real estate agent."
         />
         <CardAvisProfile
           image={ProfilePic2}
           nom="John"
-          avis="Gain de temps incroyable, interface utilisateur impeccable."
+          avis="Incredible time saver, flawless user interface."
         />
         <CardAvisProfile
           image={ProfilePic3}
           nom="Maria"
-          avis="Service client réactif, application très utile pour les visites."
+          avis="Responsive customer service, very useful application for visits."
         />
         <CardAvisProfile
           image={ProfilePic4}
           nom="David"
-          avis="Bonne application, mais nécessite des mises à jour plus fréquentes."
-        />
-        <CardAvisProfile
-          image={ProfilePic5}
-          nom="Mickel"
-          avis="Très efficace pour le suivi des clients, mais pourrait être plus personnalisable."
+          avis="Good application, but requires more frequent updates."
         />
       </Box>
     </Box>
   );
-}
+};
 
-export default RealEstateApp;
+export default App;
