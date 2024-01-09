@@ -117,7 +117,7 @@ def envoieMail():
     predictions = model.predict(df)
 
 
-    return str(predictions[0])
+    return str(int(predictions[0]))
 
 
 if __name__ == '__main__':

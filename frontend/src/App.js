@@ -208,9 +208,9 @@ export const App = () => {
                 Predictions of the Price of Your Property
               </Typography>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Based on the number of bedrooms, bathrooms, area, location, and
-                your price range, our artificial intelligence has estimated a
-                price of {estimation}
+                Based on the number of bedrooms, bathrooms, area and your
+                location, our artificial intelligence has estimated a price of{" "}
+                {estimation} $.
               </Typography>
               <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                 <Button
